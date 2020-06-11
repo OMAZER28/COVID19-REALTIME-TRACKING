@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>COVID-19 REALTIME TRACKING</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A premium admin dashboard template by mannatthemes" name="description" />
+    <meta content="Mannatthemes" name="author" />
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="../assets/images/icon.png">
+    <link href="../assets/plugins/ticker/jquery.jConveyorTicker.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/plugins/jvectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet">
+    <link href="../assets/plugins/dropify/css/dropify.min.css" rel="stylesheet">
+
+    <!-- DataTables -->
+    <link href="../assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Responsive datatable examples -->
+    <link href="../assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- App css -->
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/style.css" rel="stylesheet" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+    <!-- Top Bar End -->
+    <div class="page-wrapper-img">
+        <div class="page-wrapper-img-inner">
+            <div class="row">
+                <div class="col-sm-12">
+                    <a href="/">
+                        <img src="../assets/images/logo-sm.png" alt="logo" class="logo-sm rounded-circle img-thumbnail">
+                    </a>
+                    <h2 class="page-title mb-2" style="display: inline;margin-left: 50px;">COVID-19 REALTIME TRACKING
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-wrapper">
+        <div class="card-header">
+            <div class="navbar-custom-menu">
+                <div class="row" style="padding:  20px;">
+                    <div class="col-sm-7">
+                        <select id="s" class="custom-select" style="margin-left: 50px;">
+                            <option value="all"  selected>All countries</option>
+                            <% data.forEach(function(d){ %>
+                            <option value=<%- JSON.stringify(d.pays) %>> <%= d.pays %> </option>
+                            <% }); %>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-5">
+                        <h5 style="float: right;">Last update:<%=wdata.lastupdate%></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="card-body">
+                    <div class="wrap">
+                        <div class="jctkr-label" style="background-color:#a3001e;">
+                            <strong>Total Confirmed</strong>
+                        </div>
+                        <div class="js-conveyor-example">
+                            <ul>
+                                <% data.forEach(function(d){ %>
+                                <li>
+                                    <img src="../assets/images/flags/<%= String(d.pays).toLowerCase() %>_flag.jpg" alt="" class="thumb-sm rounded">
+                                    <span class="text-primary font-14"><b><%= d.pays %></b></span>
+                                    <span class="text-muted mb-0 font-16 "><%= d.confirmed %></span>
+                                </li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+<div id="ctnt">
+                <ul class="nav nav-pills nav-justified" role="tablist">
+                    <li class="nav-item waves-effect waves-light">
+                        <a class="nav-link active" data-toggle="tab" href="#charts" role="tab">Charts / Map</a>
+                    </li>
+                    <li class="nav-item waves-effect waves-light">
+                        <a class="nav-link" data-toggle="tab" href="#datatble" role="tab">Datatable</a>
+                    </li>
+                </ul>
+
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active p-3" id="charts" role="tabpanel">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card" style="height: 551.3px;">
+                                    <div class="card-body mb-0">
+                                        <div class="row">
+                                            <div class="col-8 align-self-center">
+                                                <div class="">
+                                                    <h4 class="mt-0 header-title">Total confirmed</h4>
+                                                    <h2 class="mt-0 font-weight-bold"><%=wdata.confirmed%></h2>
+                                                    <p class="mb-0 text-muted"><span class="text-success"><i
+                                                                class="mdi mdi-arrow-up"></i><%=wdata.confy%></span> Up
+                                                        From
+                                                        Last Day</p>
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+                                            <div class="col-4 align-self-center">
+                                                <div class="icon-info text-right">
+                                                    <i class="dripicons-user-group bg-soft-warning"></i>
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+                                        </div>
+                                        <!--end row-->
+                                    </div>
+                                    <!--end card-body-->
+                                    <div class="card-body overflow-hidden p-0">
+                                        <div class="d-flex mb-0 h-100 dash-info-box">
+                                            <div class="w-100">
+                                                <div class="apexchart-wrapper">
+                                                    <canvas id="line1" height="600" width="545"
+                                                        style="display: inline-block;width: 545px;height: 326px;"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end card-body-->
+                                </div>
+                                <!--end card-->
+                            </div>
+                            <!--end col-->
+
+                            <div class="col-lg-4">
+                                <div class="card" style="height: 551.3px;">
+                                    <div class="card-body mb-0">
+                                        <div class="row">
+                                            <div class="col-8 align-self-center">
+                                                <div class="">
+                                                    <h4 class="mt-0 header-title">Total deaths</h4>
+                                                    <h2 class="mt-0 font-weight-bold"><%=wdata.deaths%></h2>
+                                                    <p class="mb-0 text-muted"><span class="text-success"><i
+                                                                class="mdi mdi-arrow-up"></i><%=wdata.deaty%></span> Up
+                                                        From
+                                                        Last Day</p>
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+                                            <div class="col-4 align-self-center">
+                                                <div class="icon-info text-right">
+                                                    <i class="dripicons-pulse  bg-soft-warning"></i>
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+                                        </div>
+                                        <!--end row-->
+                                    </div>
+                                    <!--end card-body-->
+                                    <div class="card-body overflow-hidden p-0">
+                                        <div class="d-flex mb-0 h-100 dash-info-box">
+                                            <div class="w-100">
+                                                <div class="apexchart-wrapper">
+                                                    <canvas id="line2" height="600" width="545"
+                                                        style="display: inline-block;width: 545px;height: 326px;"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end card-body-->
+                                </div>
+                                <!--end card-->
+                            </div>
+                            <!--end col-->
+                            <div class="col-lg-4">
+                                <div class="card" style="height: 551.3px;">
+                                    <div class="card-body mb-0">
+                                        <div class="row">
+                                            <div class="col-8 align-self-center">
+                                                <div class="">
+                                                    <h4 class="mt-0 header-title">Total recovered</h4>
+                                                    <h2 class="mt-0 font-weight-bold"><%=wdata.recovered%></h2>
+                                                    <p class="mb-0 text-muted"><span class="text-success"><i
+                                                                class="mdi mdi-arrow-up"></i><%=wdata.recovy%></span> Up
+                                                        From
+                                                        Last Day</p>
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+                                            <div class="col-4 align-self-center">
+                                                <div class="icon-info text-right">
+                                                    <i class="dripicons-medical bg-soft-warning"></i>
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+                                        </div>
+                                        <!--end row-->
+                                    </div>
+                                    <!--end card-body-->
+                                    <div class="card-body overflow-hidden p-0">
+                                        <div class="d-flex mb-0 h-100 dash-info-box">
+                                            <div class="w-100">
+                                                <div class="apexchart-wrapper">
+                                                    <canvas id="line3" height="600" width="545"
+                                                        style="display: inline-block;width: 545px;height: 326px;"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end card-body-->
+                                </div>
+                                <!--end card-->
+                            </div>
+                            <!--end col-->
+
+                        </div>
+                        <!--end row-->
+                        <div class="row">
+
+                            <div class="col-12">
+                                <div class="card" style="height: 524.317px;">
+                                    <div class="card-body">
+                                        <h3 class="mt-0 header-title">More Informations</h3>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="mt-2">
+                                                    <img src="../assets/images/flags/<%= String(wdata.r1).toLowerCase() %>_flag.jpg" alt=""
+                                                        class="mb-2" height="30">
+                                                    <h5 class="mb-3">The highest number of confirmed cases is in
+                                                        <a href="/country/<%= String(wdata.r1) %>"><%= wdata.r1 %></a>
+                                                        <span class="badge badge-primary"><%=wdata.lastupdate%></span>
+                                                    </h5>
+                                                    <p class="font-13 text-muted mb-0">
+                                                        <%= wdata.r1 %>'s numbers :</p>
+                                                    <div class="apexchart-wrapper">
+                                                        <canvas id="pie" height="326" width="545"
+                                                            style="display: inline-block;width: 545px;height: 326px;"></canvas>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-4">
+                                                    <div class="col-md-6">
+                                                        <p class="mb-2 text-muted font-13"><%= wdata.r1 %> :</p>
+                                                        <h3 class="mt-0"><img
+                                                                src="../assets/images/flags/<%= String(wdata.r1).toLowerCase() %>_flag.jpg" alt=""
+                                                                class="mr-2 thumb-xs rounded-circle"><%= wdata.r1conf %>
+                                                        </h3>
+                                                    </div>
+                                                    <!--end col-->
+                                                    <div class="col-md-6">
+                                                        <p class="mb-2 text-muted font-13">World :</p>
+                                                        <h3 class="mt-0"><i
+                                                                class="fas fa-globe text-muted mr-2 font-30"></i><%= wdata.confirmed %>
+                                                        </h3>
+                                                    </div>
+                                                    <!--end col-->
+                                                </div>
+                                                <!--end row-->
+                                            </div>
+                                            <!--end col-->
+                                            <div class="col-md-8">
+                                                <div id="world-map-markers" class="dashboard-map"></div>
+                                            </div>
+                                            <!--end col-->
+                                        </div>
+                                        <!--end row-->
+                                    </div>
+                                    <!--end card-body-->
+                                </div>
+                                <!--end card-->
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+                    </div>
+                    
+                    <div class="tab-pane p-3" id="datatble" role="tabpanel">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <h4 class="mt-0 header-title">Datatable</h4>
+
+                                        <table id="datatable" class="table table-bordered dt-responsive nowrap"
+                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Rank</th>
+                                                    <th>Country / Other</th>
+                                                    <th>Total Cases</th>
+                                                    <th>New Cases</th>
+                                                    <th>Total Deaths</th>
+                                                    <th>New Deaths</th>
+                                                    <th>Total Recovered</th>
+                                                    <th>Active Cases</th>
+                                                </tr>
+                                            </thead>
+
+
+                                            <tbody>
+                                                <tr style="background-color:#4f5069;">
+                                                    <td></td>
+                                                    <td><i
+                                                                class="fas fa-globe text-muted mr-2 font-30"></i><%=wdata.pays%></td>
+                                                    <td><%=wdata.confirmed%></td>
+                                                    <td>+<%=wdata.newcases%></td>
+                                                    <td><%=wdata.deaths%></td>
+                                                    <td>+<%=wdata.newdeaths%></td>
+                                                    <td><%=wdata.recovered%></td>
+                                                    <td><%=wdata.activecases%></td>
+                                                </tr>
+                                                <% data.forEach(function(d){ %>
+                                                <tr>
+                                                    <td><%=d.rank%></td>
+                                                    <td><img
+                                                        src="../assets/images/flags/<%= String(d.pays).toLowerCase() %>_flag.jpg" alt=""
+                                                        class="mr-2 thumb-xs rounded-circle"><%=d.pays%></td>
+                                                    <td><%=d.confirmed%></td>
+                                                    <td>+<%=d.newcases%></td>
+                                                    <td><%=d.deaths%></td>
+                                                    <td>+<%=d.newdeaths%></td>
+                                                    <td><%=d.recovered%></td>
+                                                    <td><%=d.activecases%></td>
+                                                </tr>
+                                                <% }); %>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->
+                    </div>
+                </div>
+
+
+        <!-- jQuery  -->
+        <script src="../assets/js/jquery.min.js"></script>
+        <script src="../assets/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/js/waves.min.js"></script>
+        <script src="../assets/js/jquery.slimscroll.min.js"></script>
+
+
+        <script>
+            function changehref(){
+            var pays=document.getElementById("s").value.split(' ').join('%20'); 
+            if(pays=="all"){
+                $( "#ctnt" ).load( "/" + pays +"");
+            }else{
+                $( "#ctnt" ).load( "/country/" + pays +"");
+            }
+          }
+
+            document.getElementById("s").addEventListener("change",changehref);
+          </script>
+
+        <script>
+            $(document).ready(function () {
+                $("#datatable tr").each(function () {
+                    var row1 = $(this).find("td:nth-child(4)").text();
+                    if (row1 != '+0') {
+                        $(this).find("td:nth-child(4)").css('background-color', '#f6f7c1');
+                    }
+
+                    var row2 = $(this).find("td:nth-child(6)").text();
+                    if (row2 != '+0') {
+                        $(this).find("td:nth-child(6)").css('background-color', '#fab6b6');
+                    }
+                });
+
+                new Chart(document.getElementById("pie"), {
+                    type: 'pie',
+                    data: {
+                        labels: ["Active cases", "Deaths", "Recovered"],
+                        datasets: [{
+                            backgroundColor: ["rgba(255, 166, 0, 0.7)", "rgba(255, 0, 0, 0.7)", "rgba(68, 255, 0, 0.7)"],
+                            data: [<%= wdata.r1ac %>, <%= wdata.r1deat %>, <%= wdata.r1recov %>]
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: false,
+                        }
+                    }
+                });
+
+                var lbl = [];
+                var dt1 = [];
+                var dt2 = [];
+                var dt3 = [];
+
+    <% wdata.tabdate.forEach(function (d) { %>
+                    lbl.push(<%- JSON.stringify(d) %>);
+      <% }); %>;
+
+      <% wdata.tabconf.forEach(function (c) { %>
+                    dt1.push(<%= c %>);
+      <% }); %>;
+
+      <% wdata.tabdeat.forEach(function (c) { %>
+                    dt2.push(<%= c %>);
+      <% }); %>;
+
+      <% wdata.tabrecov.forEach(function (c) { %>
+                    dt3.push(<%= c %>);
+      <% }); %>;
+                new Chart(document.getElementById("line1"), {
+                    type: 'line',
+                    data: {
+                        labels: lbl, //,
+                        datasets: [
+                            {
+                                label: "Total Confirmed Cases",
+                                fill: true,
+                                lineTension: 0.5,
+                                backgroundColor: "rgba(255, 166, 0, 0.3)",
+                                borderColor: "#ffcf75",
+                                borderCapStyle: 'butt',
+                                borderDash: [],
+                                borderDashOffset: 0.0,
+                                borderJoinStyle: 'miter',
+                                pointBorderColor: "#ffcf75",
+                                pointBackgroundColor: "#ffcf75",
+                                pointBorderWidth: 1,
+                                pointHoverRadius: 5,
+                                pointHoverBackgroundColor: "#ffcf75",
+                                pointHoverBorderColor: "#ffcf75",
+                                pointHoverBorderWidth: 3,
+                                pointRadius: 1,
+                                pointHitRadius: 10,
+                                data: dt1,
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                },
+                                scaleLabel: {
+                                    display: false,
+                                }
+                            }],
+                            xAxes: [{
+                                scaleLabel: {
+                                    display: false,
+                                }
+                            }]
+                        }
+                    }
+                });
+
+
+                new Chart(document.getElementById("line2"), {
+                    type: 'line',
+                    data: {
+                        labels: lbl, //,
+                        datasets: [
+                            {
+                                label: "Total Deaths",
+                                fill: true,
+                                lineTension: 0.5,
+                                backgroundColor: "rgba(255, 0, 0, 0.3)",
+                                borderColor: "#ff9696",
+                                borderCapStyle: 'butt',
+                                borderDash: [],
+                                borderDashOffset: 0.0,
+                                borderJoinStyle: 'miter',
+                                pointBorderColor: "#ff9696",
+                                pointBackgroundColor: "#ff9696",
+                                pointBorderWidth: 1,
+                                pointHoverRadius: 5,
+                                pointHoverBackgroundColor: "#ff9696",
+                                pointHoverBorderColor: "#ff9696",
+                                pointHoverBorderWidth: 3,
+                                pointRadius: 1,
+                                pointHitRadius: 10,
+                                data: dt2,
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                },
+                                scaleLabel: {
+                                    display: false,
+                                }
+                            }],
+                            xAxes: [{
+                                scaleLabel: {
+                                    display: false,
+                                }
+                            }]
+                        }
+                    }
+                });
+
+                new Chart(document.getElementById("line3"), {
+                    type: 'line',
+                    data: {
+                        labels: lbl, //,
+                        datasets: [
+                            {
+                                label: "Total Recovered",
+                                fill: true,
+                                lineTension: 0.5,
+                                backgroundColor: "rgba(68, 255, 0, 0.3)",
+                                borderColor: "#98ff73",
+                                borderCapStyle: 'butt',
+                                borderDash: [],
+                                borderDashOffset: 0.0,
+                                borderJoinStyle: 'miter',
+                                pointBorderColor: "#98ff73",
+                                pointBackgroundColor: "#98ff73",
+                                pointBorderWidth: 1,
+                                pointHoverRadius: 5,
+                                pointHoverBackgroundColor: "#98ff73",
+                                pointHoverBorderColor: "#98ff73",
+                                pointHoverBorderWidth: 3,
+                                pointRadius: 1,
+                                pointHitRadius: 10,
+                                data: dt3,
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                },
+                                scaleLabel: {
+                                    display: false,
+                                }
+                            }],
+                            xAxes: [{
+                                scaleLabel: {
+                                    display: false,
+                                }
+                            }]
+                        }
+                    }
+                });
+
+            }); 
+        </script>
+
+<script src="../assets/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js"></script>
+<script src="../assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+
+        <script>
+            
+
+            //Dash-Map
+
+            $('#world-map-markers').vectorMap({
+                map: 'world_mill_en',
+                scaleColors: ['#eff0f1', '#eff0f1'],
+                normalizeFunction: 'polynomial',
+                hoverOpacity: 0.7,
+                hoverColor: false,
+                regionStyle: {
+                    initial: {
+                        fill: '#4c5486'
+                    }
+                },
+                onRegionClick:function(event, code){            
+                      var name = (code);                          
+                            //window.location.replace("/country/"+ code+"");
+                    $( "#ctnt" ).load( "/country/" + code +"");
+                    $("#s").val(code.split('%20').join(' ')).attr('selected', true);
+                      },
+                markerStyle: {
+                    initial: {
+                        stroke: "transparent"
+                    },
+                    hover: {
+                        stroke: "rgba(112, 112, 112, 0.30)"
+                    }
+                },
+                backgroundColor: 'transparent',
+
+
+                series: {
+                    regions: [{
+                        values: {
+                            <%- JSON.stringify(wdata.r1) %>: '#fdcede',
+
+                        },
+                        attribute: 'fill'
+                    }]
+                },
+            });
+        </script>
+
+</div>
+                <!--end card-body-->
+                    <!-- Required datatable js -->
+                    <script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+                    <script src="../assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+            
+                    <!-- Buttons examples -->
+                    <script src="../assets/plugins/datatables/dataTables.buttons.min.js"></script>
+                    <script src="../assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+                    <!-- Responsive examples -->
+                    <script src="../assets/plugins/datatables/dataTables.responsive.min.js"></script>
+                    <script src="../assets/plugins/datatables/responsive.bootstrap4.min.js"></script>
+                    <script src="../assets/pages/jquery.datatable.init.js"></script>
+
+
+
+
+                <footer class="footer text-center text-sm-left">
+                    &copy; 2020 Mazer Omar <span class="text-muted d-none d-sm-inline-block float-right">Web Development
+                        Project / 2ITE 1</span>
+                </footer>
+            </div>
+            <!-- end page content -->
+        </div>
+        <!-- end page-wrapper -->
+
+                <script src="../assets/plugins/ticker/jquery.jConveyorTicker.min.js"></script>
+                <script src="../assets/plugins/chartjs/chart.min.js"></script>
+                <script src="../assets/pages/jquery.dashboard.init.js"></script>
+
+                         <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-firestore.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
+
+        <script>
+            // Your web app's Firebase configuration
+            var firebaseConfig = {
+                apiKey: "AIzaSyCZlh41k6dnJG-gDqP6uuhBTCXYlC7C-Dw",
+                authDomain: "covid-project-4882f.firebaseapp.com",
+                databaseURL: "https://covid-project-4882f.firebaseio.com",
+                projectId: "covid-project-4882f",
+                storageBucket: "covid-project-4882f.appspot.com",
+                messagingSenderId: "1006438774306",
+                appId: "1:1006438774306:web:78fcd1f2e11b5a84e97c7b",
+                measurementId: "G-NLT13F5HF0"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            firebase.analytics();
+        </script>
+        <script>
+            $(document).ready(function () {
+                const Docref = firebase.firestore().collection(<%- JSON.stringify(wdata.lastupdate) %>);
+                <% data.forEach(function (e) { %>
+                var doc = Docref.doc(<%- JSON.stringify(e.pays) %>);
+                    doc.set({
+                        rank: <%- JSON.stringify(e.rank) %>,
+                        confirmed:<%- JSON.stringify(e.confirmed) %>,
+                        deaths:<%- JSON.stringify(e.deaths) %>,
+                        newcases:<%- JSON.stringify(e.newcases) %>,
+                        newdeaths:<%- JSON.stringify(e.newdeaths) %>,
+                        recovered:<%- JSON.stringify(e.recovered) %>
+                    })
+                <% }); %>
+ 
+            });
+        </script>
+        <!-- App js -->
+        <script src="../assets/js/app.js"></script>
+
+</body>
+
+</html>
